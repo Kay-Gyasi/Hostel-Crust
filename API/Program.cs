@@ -16,7 +16,6 @@ builder.Services.AddControllers().AddNewtonsoftJson(options =>
         options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 builder.Services.AddSwaggerGen(c => c.CustomOperationIds(apiDescription =>
 {
@@ -61,26 +60,16 @@ builder.Services.AddCors(options =>
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI(c =>
-    {
-        c.DisplayOperationId();
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerceApi v1");
-    });
-}
-else
-{
-    app.UseSwaggerUI(c => {
+app.UseSwagger();
 
-        c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerceApi v1");
-        c.RoutePrefix = String.Empty;
-        c.DisplayOperationId();
-    });
+app.UseSwaggerUI(c => {
 
-    app.UseExceptionHandler("/error");
-}
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerceApi v1");
+    c.RoutePrefix = String.Empty;
+    c.DisplayOperationId();
+});
+
+app.UseExceptionHandler("/error");
 
 app.UseHttpsRedirection();
 

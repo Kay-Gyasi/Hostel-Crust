@@ -1,12 +1,13 @@
 ﻿using API.DTOs;
 using API.Interfaces;
 using Data_Layer.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-   
+    [EnableCors()]
     public class UserController : BaseController
     {
         private readonly IUnitOfWork uow;

@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Interfaces;
 using Data_Layer.Models;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -10,7 +11,7 @@ using System.Text;
 
 namespace API.Controllers
 {
-    
+    [EnableCors()]
     public class AccountController : BaseController
     {
         private readonly IUnitOfWork uow;

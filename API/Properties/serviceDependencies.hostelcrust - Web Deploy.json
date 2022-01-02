@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "mssql1": {
-      "secretStore": "AzureAppSettings",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/hostelcrustdb/databases/API_db",
-      "type": "mssql.azure",
-      "connectionId": "ConnectionStrings:Default"
-    },
     "identityapp1": {
       "ignored": "true",
       "suggestion": "true",
