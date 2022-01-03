@@ -50,7 +50,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "AllowOrigin",
         builder =>
         {
-            builder.WithOrigins("https://e-commerce-kay-gyasi.vercel.app/", "http://localhost:4200/")
+            builder.WithOrigins("https://hostelcrust.vercel.app/", "http://localhost:4200")
             .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
@@ -75,7 +75,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowOrigin");
 
-app.UseAuthentication();
+//app.UseAuthentication();
 
 app.UseAuthorization();
 
