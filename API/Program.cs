@@ -2,9 +2,13 @@ using API.Data.Unit_Of_Work;
 using API.Interfaces;
 using Data_Layer.Data_Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Reflection;
 using System.Text;
 
@@ -50,7 +54,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "AllowOrigin",
         builder =>
         {
-            builder.WithOrigins("https://hostelcrust.vercel.app/", "http://localhost:4200")
+            builder.WithOrigins("https://hostelcrust.vercel.app/", "https://hostel-crust-admin.vercel.app/")
             .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();

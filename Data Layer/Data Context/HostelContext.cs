@@ -27,6 +27,8 @@ namespace Data_Layer.Data_Context
 
         public DbSet<Users> users { get; set; }
 
+        public DbSet<ProcessedOrders> processedOrders { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

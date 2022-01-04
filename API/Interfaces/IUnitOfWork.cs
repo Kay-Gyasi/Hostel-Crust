@@ -1,4 +1,6 @@
-﻿namespace API.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace API.Interfaces
 {
     public interface IUnitOfWork
     {
@@ -11,6 +13,8 @@
         IProductRepo ProductRepo { get; }
 
         IUserRepo UserRepo { get; } 
+
+        IProOrdersRepo ProOrdersRepo { get; }
 
         Task<bool> SaveAsync();
     }

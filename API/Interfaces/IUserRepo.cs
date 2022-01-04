@@ -1,5 +1,7 @@
 ﻿using API.DTOs;
 using Data_Layer.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Interfaces
 {

@@ -1,6 +1,7 @@
 ﻿using API.Data.Repository;
 using API.Interfaces;
 using Data_Layer.Data_Context;
+using System.Threading.Tasks;
 
 namespace API.Data.Unit_Of_Work
 {
@@ -22,6 +23,8 @@ namespace API.Data.Unit_Of_Work
         public IUserRepo UserRepo => new UserRepo(db);
 
         public IOrderDetailRepo DetailRepo => new OrderDetailRepo(db);
+
+        public IProOrdersRepo ProOrdersRepo => new ProOrdersRepo();
 
         #region SaveAsync
         public async Task<bool> SaveAsync()
