@@ -54,7 +54,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "AllowOrigin",
         builder =>
         {
-            builder.WithOrigins("https://hostelcrust.vercel.app/", "https://hostel-crust-admin.vercel.app/")
+            builder.WithOrigins("https://hostelcrust.vercel.app", "https://hostel-crust-admin.vercel.app")
             .AllowAnyOrigin()
             .AllowAnyHeader()
             .AllowAnyMethod();
