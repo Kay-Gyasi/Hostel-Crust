@@ -24,7 +24,7 @@ namespace API.Data.Unit_Of_Work
 
         public IOrderDetailRepo DetailRepo => new OrderDetailRepo(db);
 
-        public IProOrdersRepo ProOrdersRepo => new ProOrdersRepo();
+        public IProOrdersRepo ProOrdersRepo => new ProOrdersRepo(db);
 
         #region SaveAsync
         public async Task<bool> SaveAsync()

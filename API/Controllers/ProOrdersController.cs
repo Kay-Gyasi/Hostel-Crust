@@ -35,7 +35,7 @@ namespace API.Controllers
         [HttpPost("PostProOrder")]
         public async Task<IActionResult> PostProOrder(ProOrdersDto proOrderDto)
         {
-            Orders Order = new();
+            ProcessedOrders Order = new();
 
             Order.OrderID = proOrderDto.OrderID;
             Order.isFulfilled = proOrderDto.isFulfilled;
@@ -45,11 +45,11 @@ namespace API.Controllers
             Order.DeliveryLocation = proOrderDto.DeliveryLocation;
             Order.isDelivery = proOrderDto.isDelivery;
 
-            uow.OrderRepo.AddOrder(Order);
+            uow.ProOrdersRepo.AddProcessedOrder(Order);
 
             await uow.SaveAsync();
 
-            return CreatedAtAction("GetOrders", new { id = Order.OrderID }, proOrderDto);
+            return CreatedAtAction("GetProOrders", new { id = Order.OrderID }, proOrderDto);
         }
     }
 }
