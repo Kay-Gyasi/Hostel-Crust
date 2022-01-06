@@ -47,6 +47,20 @@ namespace API.Data.Repository
         {
             return await db.categories.FindAsync(id);
         }
+
+        public Task<Categories> GetCategoryByName(string name)
+        {
+            var category = db.categories.FirstOrDefaultAsync(x => x.Title == name);
+
+            if (category == null)
+            {
+                throw new ArgumentException(name);
+            }
+            else
+            {
+                return category;
+            }
+        }
         #endregion
     }
 }
