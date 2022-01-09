@@ -54,7 +54,7 @@ namespace API.Controllers
         [HttpPost("AddUser")]
         public async Task<IActionResult> AddUser(AccountsDto user)
         {
-            var name = user.FirstName + ' ' + user.LastName;
+            var name = (user.FirstName).Trim() + ' ' + (user.LastName).Trim();
             var email = user.Email;
 
             if (await uow.UserRepo.UserAlreadyExists(name, email))
