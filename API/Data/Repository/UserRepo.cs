@@ -25,7 +25,8 @@ namespace API.Data.Repository
 
             if (user == null || user.PasswordKey == null)
             {
-                return null;
+                return null; // return somethineg else which will be used in controller to distinguish between an invalid user
+                // and an expired token
             }
 
             if(!MatchPasswordHash(password, user.Password, user.PasswordKey))

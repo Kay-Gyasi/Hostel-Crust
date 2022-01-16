@@ -52,7 +52,13 @@ namespace API.Controllers
 
             var claims = new Claim[]
             {
+                //Set as many claimtypes as required
+
                 new Claim(ClaimTypes.Name, (user.FirstName + ' ' + user.LastName)),
+
+                //new Claim(ClaimTypes.Role, "role should be specified in the database and then passed here" +
+                //"in the api methods, check the role of the person and then grant permisions accordingly"),
+
                 new Claim(ClaimTypes.NameIdentifier, user.CustomerID.ToString())
             };
 
