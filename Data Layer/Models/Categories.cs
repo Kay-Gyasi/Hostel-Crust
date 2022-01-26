@@ -17,7 +17,7 @@ namespace Data_Layer.Models
         [DataType(DataType.Text, ErrorMessage = "Invalid title")]
         public string Title { get; set; }
 
-        public DateTime DateAdded { get; set; } = DateTime.Now;
+        public DateTime? DateAdded { get; set; }
 
         public ICollection<Products>? Products { get; set; }
     }

@@ -1,4 +1,5 @@
-﻿using API.DTOs;
+﻿using API.Data.Repository;
+using API.DTOs;
 using API.Interfaces;
 using Data_Layer.Models;
 using Microsoft.AspNetCore.Cors;
@@ -14,7 +15,6 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [EnableCors()]
     public class AccountController : BaseController
     {
         private readonly IUnitOfWork uow;
@@ -44,7 +44,8 @@ namespace API.Controllers
             return Ok(loginRes);
         }
 
-        private string CreateJWT(Users user)
+        [HttpGet("Jwt")]
+        public string CreateJWT(Users user)
         {
             var secretKey = configuration.GetSection("AppSettings:Key").Value;
 

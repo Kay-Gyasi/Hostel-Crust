@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    [EnableCors()]
     public class ProOrdersController : BaseController
     {
         private readonly IUnitOfWork uow;

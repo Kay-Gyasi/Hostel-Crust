@@ -11,8 +11,7 @@
     },
     "mssql1": {
       "secretStore": "LocalSecretsFile",
-      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/hostelcrustdb/databases/API_db",
-      "type": "mssql.azure",
+      "type": "mssql.onprem",
       "connectionId": "ConnectionStrings:Default"
     }
   }

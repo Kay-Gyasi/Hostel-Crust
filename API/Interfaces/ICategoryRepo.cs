@@ -15,5 +15,7 @@ namespace API.Interfaces
         Task<Categories> GetCategoryById(int id);
 
         Task<Categories> GetCategoryByName(string name);
+
+        bool CategoryExists(string name);
     }
 }

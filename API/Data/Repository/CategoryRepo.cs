@@ -21,6 +21,11 @@ namespace API.Data.Repository
         {
             db.categories.Add(category);
         }
+
+        public bool CategoryExists(string name)
+        {
+            return db.categories.Any(x => x.Title == name);
+        }
         #endregion
 
         #region DeleteCategory

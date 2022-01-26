@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [EnableCors()]
     public class ProductController : BaseController
     {
         private readonly IUnitOfWork uow;

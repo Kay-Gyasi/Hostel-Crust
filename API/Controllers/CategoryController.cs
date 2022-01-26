@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [EnableCors()]
     public class CategoryController : BaseController
     {
         private readonly IUnitOfWork uow;
@@ -22,6 +21,11 @@ namespace API.Controllers
         public async Task<IActionResult> GetCategories()
         {
             var categories = await uow.CategoryRepo.GetCategoriesAsync();
+
+            if(categories == null)
+            {
+                return NotFound();
+            }
 
             var categoriesDto = from c in categories
                                 select new CategoriesDto()
@@ -37,10 +41,18 @@ namespace API.Controllers
         [HttpPost("PostCategory")]
         public async Task<IActionResult> PostCategory([FromBody] CategoriesDto categoryDto)
         {
+            var categoryExists = uow.CategoryRepo.CategoryExists(categoryDto.Title);
+
+            if (categoryExists)
+            {
+                return BadRequest("Category already exists in database");
+            }
+
             var category = new Categories
             {
                 CategoryID = categoryDto.CategoryID,
-                Title = categoryDto.Title
+                Title = categoryDto.Title,
+                DateAdded = categoryDto.DateAdded
             };
 
             uow.CategoryRepo.AddCategory(category);
@@ -54,30 +66,37 @@ namespace API.Controllers
         [HttpPut("PutCategory/{id}")]
         public async Task<IActionResult> PutCategory(int id, CategoriesDto categoryDto)
         {
-            if(id != categoryDto.CategoryID)
+            var category = await uow.CategoryRepo.GetCategoryById(id);
+
+            if (category is null)
             {
                 return BadRequest();
             }
-
-            var category = await uow.CategoryRepo.GetCategoryById(id);
 
             category.Title = categoryDto.Title;
             category.CategoryID = id;
 
             await uow.SaveAsync();
 
-            return StatusCode(200);
+            return NoContent();
         }
 
 
         [HttpDelete("DeleteCategory/{id}")]
         public async Task<IActionResult> DeleteCategory(int id)
         {
+            var category = await uow.CategoryRepo.GetCategoryById(id);
+
+            if(category is null)
+            {
+                return BadRequest("Category does not exist");
+            }
+
             uow.CategoryRepo.DeleteCategory(id);
 
             await uow.SaveAsync();
 
-            return Ok(id);
+            return NoContent();
         }
     }
 }
