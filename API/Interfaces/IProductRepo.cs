@@ -12,6 +12,8 @@ namespace API.Interfaces
 
         void DeleteProduct(int id);
 
+        bool ProductExists(string title);
+
         Task<Products> GetProductById(int id);
 
         int GetCategoryId(string name);

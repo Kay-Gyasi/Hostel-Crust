@@ -20,6 +20,19 @@ namespace API.Controllers
         public async Task<IActionResult> GetProOrders()
         {
             var orders = await uow.ProOrdersRepo.GetProcessedOrders();
+            if(orders == null)
+            {
+                return NotFound();
+            }
+
+            //ProOrdersDto proOrdersDto = from order in orders
+            //                            select new ProOrdersDto()
+            //                            {
+            //                                OrderID = order.OrderID,
+            //                                isDelivery = order.isDelivery,
+            //                                AdditionalInfo = order.AdditionalInfo,
+            //                                Customer = order.C
+            //                            }
             return Ok(orders);
         }
 

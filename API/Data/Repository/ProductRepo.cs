@@ -60,5 +60,10 @@ namespace API.Data.Repository
         {
             return db.categories.FirstOrDefault(a => a.CategoryID == id).Title;
         }
+
+        public bool ProductExists(string title)
+        {
+            return db.products.Where(x => x.Name == title).Any();
+        }
     }
 }

@@ -22,7 +22,10 @@ namespace API.Data.Repository
         public void DeleteProcessedOrder(int id)
         {
             var order = db.processedOrders.Find(id);
-            db.processedOrders.Remove(order);
+            if(order != null)
+            {
+                db.processedOrders.Remove(order);
+            }
         }
 
         public async Task<IEnumerable<ProcessedOrders>> GetProcessedOrders()

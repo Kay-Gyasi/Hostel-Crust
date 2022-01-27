@@ -12,6 +12,8 @@ namespace API.Interfaces
 
         void DeleteOrderDetail(int id);
 
+        bool OrderDetailExists(int id);
+
         int GetProductId(string name);
 
         string GetProductName(int id);

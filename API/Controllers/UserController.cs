@@ -23,6 +23,10 @@ namespace API.Controllers
         {
             var users = await uow.UserRepo.GetUsersAsync();
 
+            if(users == null)
+            {
+                return NotFound();
+            }
             var usersDto = from c in users
                            select new UsersDto()
                            {
@@ -42,11 +46,16 @@ namespace API.Controllers
         [HttpDelete("DeleteUser")]
         public async Task<IActionResult> DeleteUser(int id)
         {
+            if (await uow.UserRepo.GetUsersById(id) == null)
+            {
+                return BadRequest();
+            }
+
             uow.UserRepo.DeleteUser(id);
 
             await uow.SaveAsync();
 
-            return Ok(id);
+            return NoContent();
         }
 
 

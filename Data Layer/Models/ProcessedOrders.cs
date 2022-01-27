@@ -21,9 +21,9 @@ namespace Data_Layer.Models
         [Column(TypeName = "varchar(10)")]
         public string OrderNum { get; set; }
 
-        public bool? isFulfilled { get; set; } = false;
+        public bool? isFulfilled { get; set; } 
 
-        public bool? isDelivery { get; set; } = false;
+        public bool? isDelivery { get; set; } 
 
         [Column(TypeName = "varchar(200)")]
         [DataType(DataType.MultilineText)]
@@ -32,6 +32,6 @@ namespace Data_Layer.Models
         [Column(TypeName = "varchar(50)")]
         public string? DeliveryLocation { get; set; }
 
-        public DateTime DateOrdered { get; set; } = DateTime.Now;
+        public DateTime? DateOrdered { get; set; } 
     }
 }

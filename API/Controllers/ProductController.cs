@@ -22,6 +22,10 @@ namespace API.Controllers
         {
             var products = await uow.ProductRepo.GetProductsAsync();
 
+            if(products == null)
+            {
+                return NotFound();
+            }
             var productDto = from c in products
                              select new ProductsDto()
                              {
@@ -39,6 +43,11 @@ namespace API.Controllers
         [HttpPost("PostProduct")]
         public async Task<IActionResult> PostProduct(ProductsDto productsDto)
         {
+            if (!uow.ProductRepo.ProductExists(productsDto.Title))
+            {
+                return BadRequest();
+            }
+
             var CId = uow.ProductRepo.GetCategoryId(productsDto.CategoryName);
 
             var product = new Products()
@@ -60,11 +69,16 @@ namespace API.Controllers
         [HttpDelete("DeleteProduct/{id}")]
         public async Task<IActionResult> DeleteProduct(int id)
         {
+            if (await uow.ProductRepo.GetProductById(id) == null)
+            {
+                return BadRequest();
+            }
+
             uow.ProductRepo.DeleteProduct(id);
 
             await uow.SaveAsync();
 
-            return Ok(id);
+            return NoContent();
         }
 
 
@@ -73,6 +87,11 @@ namespace API.Controllers
         {
 
             var product = uow.ProductRepo.GetProductById(id).Result;
+
+            if(product == null)
+            {
+                return NotFound();
+            }
 
             var CId = uow.ProductRepo.GetCategoryId(productsDto.CategoryName);
 
@@ -84,7 +103,7 @@ namespace API.Controllers
 
             await uow.SaveAsync();
 
-            return StatusCode(200);
+            return NoContent();
         }
     }
 }

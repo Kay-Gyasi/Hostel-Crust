@@ -33,6 +33,6 @@ namespace Data_Layer.Models
         [Column(TypeName = "varchar(50)")]
         public string? DeliveryLocation { get; set; }
 
-        public DateTime DateOrdered { get; set; } = DateTime.Now;
+        public DateTime? DateOrdered { get; set; }
     }
 }

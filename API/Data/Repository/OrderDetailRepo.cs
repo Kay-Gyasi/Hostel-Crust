@@ -25,7 +25,16 @@ namespace API.Data.Repository
         public void DeleteOrderDetail(int id)
         {
             var detail = this.db.OrderDetails.Find(id);
-            db.Remove(detail);
+
+            if(detail != null)
+                db.Remove(detail);
+        }
+
+        public bool OrderDetailExists(int id)
+        {
+            var info = this.db.OrderDetails.Find(id);
+
+            return info != null;
         }
 
         public IEnumerable<OrderDetail> GetDetailsForOrder(string orderNum)

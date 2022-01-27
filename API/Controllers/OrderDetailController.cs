@@ -22,6 +22,11 @@ namespace API.Controllers
         {
             var details = await uow.DetailRepo.GetOrderDetailsAsync();
 
+            if(details == null)
+            {
+                return NotFound();
+            }
+
             var detailsDto = from order in details
                              select new OrderDetailDto
                              {
@@ -37,10 +42,14 @@ namespace API.Controllers
         [HttpDelete("DeleteOrderDetail/{id}")]
         public async Task<IActionResult> DeleteOrderDetail(int id)
         {
-            uow.DetailRepo.DeleteOrderDetail(id);
-            await uow.SaveAsync();
+            if (uow.DetailRepo.OrderDetailExists(id))
+            {
+                uow.DetailRepo.DeleteOrderDetail(id);
+                await uow.SaveAsync();
 
-            return Ok(id);
+                return NoContent();
+            }
+            return BadRequest();
         }
 
         [HttpPost("PostOrderDetail")]

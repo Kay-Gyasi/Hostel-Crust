@@ -10,7 +10,7 @@ namespace API.DTOs
 
         public bool? isFulfilled { get; set; } = false;
 
-        public DateTime? DateOrdered { get; set; }
+        public DateTime? DateOrdered { get; set; } = DateTime.Now;
 
         public string OrderNum { get; set; }
 
@@ -18,6 +18,6 @@ namespace API.DTOs
 
         public string? AdditionalInfo { get; set; }
 
-        public string DeliveryLocation { get; set; }
+        public string? DeliveryLocation { get; set; }
     }
 }

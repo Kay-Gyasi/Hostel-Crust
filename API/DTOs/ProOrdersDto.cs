@@ -21,6 +21,6 @@ namespace API.DTOs
 
         public string? DeliveryLocation { get; set; }
 
-        public DateTime DateOrdered { get; set; } = DateTime.Now;
+        public DateTime? DateOrdered { get; set; } = DateTime.Now;
     }
 }

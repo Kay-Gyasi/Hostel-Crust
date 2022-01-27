@@ -28,7 +28,7 @@ namespace Data_Layer.Models
         [DataType(DataType.Currency, ErrorMessage = "Invalid price")]
         public decimal Price { get; set; }
 
-        public bool isAvailable { get; set; } = true;
+        public bool? isAvailable { get; set; }
 
         public DateTime DateAdded { get; set; } = DateTime.Now;
 

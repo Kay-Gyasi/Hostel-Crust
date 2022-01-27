@@ -10,6 +10,6 @@
 
         public decimal Price { get; set; }
 
-        public bool isAvailable { get; set; } = true;
+        public bool? isAvailable { get; set; } = true;
     }
 }

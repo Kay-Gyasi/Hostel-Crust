@@ -23,6 +23,11 @@ namespace API.Controllers
         {
             var Orders = await uow.OrderRepo.GetOrdersAsync();
 
+            if(Orders == null)
+            {
+                return NotFound();
+            }
+
             var OrdersDto = from c in Orders
                             select new OrderDto()
                             {
@@ -54,6 +59,7 @@ namespace API.Controllers
             Order.AdditionalInfo = OrdersDto.AdditionalInfo;
             Order.DeliveryLocation = OrdersDto.DeliveryLocation;
             Order.isDelivery = OrdersDto.isDelivery;
+            Order.DateOrdered = OrdersDto.DateOrdered;
 
             uow.OrderRepo.AddOrder(Order);
 
@@ -77,7 +83,7 @@ namespace API.Controllers
             uow.OrderRepo.DeleteOrder(id);
             await uow.SaveAsync();
 
-            return Ok(id);
+            return NoContent();
         }
         #endregion
 
@@ -86,12 +92,12 @@ namespace API.Controllers
         [HttpPut("PutOrder/{id}")]
         public async Task<IActionResult> PutOrder(int id, OrderDto OrdersDto)
         {
-            if(id != OrdersDto.OrderID)
+            var Order = await uow.OrderRepo.GetOrderById(id); 
+                
+            if (Order is null)
             {
                 return BadRequest();
             }
-
-            var Order = await uow.OrderRepo.GetOrderById(id);
 
             Order.OrderID = OrdersDto.OrderID;
             Order.CustomerID = uow.OrderRepo.GetCustomerId(OrdersDto.Customer);
@@ -104,7 +110,7 @@ namespace API.Controllers
 
             await uow.SaveAsync();
 
-            return StatusCode(200);
+            return NoContent();
         }
         #endregion
     }
