@@ -12,7 +12,7 @@
     "mssql1": {
       "secretStore": "LocalSecretsFile",
       "type": "mssql.onprem",
-      "connectionId": "ConnectionStrings:Default"
+      "connectionId": "ConnectionStrings:HostelCrust"
     }
   }
 }

@@ -1,14 +1,4 @@
-﻿using API.DTOs;
-using API.Interfaces;
-using Data_Layer.Data_Context;
-using Data_Layer.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace API.Data.Repository
+﻿namespace API.Data.Repository
 {
     public class UserRepo : IUserRepo
     {

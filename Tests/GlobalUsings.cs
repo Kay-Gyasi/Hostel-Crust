@@ -1,0 +1,12 @@
+﻿global using API.Controllers;
+global using API.DTOs;
+global using API.Interfaces;
+global using Data_Layer.Models;
+global using FluentAssertions;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.Extensions.Configuration;
+global using Moq;
+global using System;
+global using System.Threading.Tasks;
+global using Xunit;
+global using System.Collections.Generic;

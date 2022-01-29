@@ -1,9 +1,4 @@
-﻿using API.Interfaces;
-using Data_Layer.Data_Context;
-using Data_Layer.Models;
-using Microsoft.EntityFrameworkCore;
-
-namespace API.Data.Repository
+﻿namespace API.Data.Repository
 {
     public class ProOrdersRepo : IProOrdersRepo
     {

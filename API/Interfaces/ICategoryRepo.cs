@@ -1,8 +1,4 @@
-﻿using Data_Layer.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace API.Interfaces
+﻿namespace API.Interfaces
 {
     public interface ICategoryRepo
     {

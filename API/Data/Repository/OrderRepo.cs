@@ -1,12 +1,4 @@
-﻿using API.Interfaces;
-using Data_Layer.Data_Context;
-using Data_Layer.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace API.Data.Repository
+﻿namespace API.Data.Repository
 {
     public class OrderRepo : IOrderRepo
     {

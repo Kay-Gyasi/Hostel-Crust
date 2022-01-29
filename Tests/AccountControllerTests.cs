@@ -1,16 +1,3 @@
-using API.Controllers;
-using API.Data.Repository;
-using API.DTOs;
-using API.Interfaces;
-using Data_Layer.Models;
-using FluentAssertions;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Moq;
-using System;
-using System.Threading.Tasks;
-using Xunit;
-
 namespace Tests
 {
     public class AccountControllerTests

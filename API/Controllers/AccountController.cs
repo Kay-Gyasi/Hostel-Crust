@@ -1,19 +1,4 @@
-﻿using API.Data.Repository;
-using API.DTOs;
-using API.Interfaces;
-using Data_Layer.Models;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Tokens;
-using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace API.Controllers
+﻿namespace API.Controllers
 {
     public class AccountController : BaseController
     {
@@ -47,7 +32,10 @@ namespace API.Controllers
         [HttpGet("Jwt")]
         public string CreateJWT(Users user)
         {
-            var secretKey = configuration.GetSection("AppSettings:Key").Value;
+            var secretKey = configuration.GetSection("HostelCrustKey").Value;
+
+            //var secretKey = configuration.GetSection("AppSettings:HostelCrustKey").Value;
+
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 

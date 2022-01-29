@@ -1,10 +1,6 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-
-namespace API.Controllers
+﻿namespace API.Controllers
 {
-   
+
     public class ErrorController : BaseController
     {
         [HttpGet("/error")]

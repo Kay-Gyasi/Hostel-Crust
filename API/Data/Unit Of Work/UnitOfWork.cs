@@ -1,9 +1,4 @@
-﻿using API.Data.Repository;
-using API.Interfaces;
-using Data_Layer.Data_Context;
-using System.Threading.Tasks;
-
-namespace API.Data.Unit_Of_Work
+﻿namespace API.Data.Unit_Of_Work
 {
     public class UnitOfWork : IUnitOfWork
     {

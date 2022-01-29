@@ -1,6 +1,4 @@
-﻿using Data_Layer.Models;
-
-namespace API.Interfaces
+﻿namespace API.Interfaces
 {
     public interface IProOrdersRepo
     {
