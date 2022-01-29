@@ -9,6 +9,8 @@
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
 
+            builder.Services.AddMemoryCache();
+
             builder.Services.AddSwaggerGen(c => c.CustomOperationIds(apiDescription =>
             {
                 return apiDescription.TryGetMethodInfo(out MethodInfo methodInfo) ? methodInfo.Name : null;
