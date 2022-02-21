@@ -1,32 +1,43 @@
-﻿namespace API.Controllers
+﻿using Microsoft.Extensions.Caching.Memory;
+
+namespace API.Controllers
 {
     public class ProductController : BaseController
     {
         private readonly IUnitOfWork uow;
+        private readonly IMemoryCache cache;
+        private const string CacheKey = "Products";
 
-        public ProductController(IUnitOfWork uow)
+        public ProductController(IUnitOfWork uow, IMemoryCache cache)
         {
             this.uow = uow;
+            this.cache = cache;
         }
 
         [HttpGet("GetProducts")]
         public async Task<IActionResult> GetProducts()
         {
-            var products = await uow.ProductRepo.GetProductsAsync();
-
-            if(products == null)
+            var productDto = cache.Get(CacheKey);
+            if(productDto == null)
             {
-                return NotFound();
+                var products = await uow.ProductRepo.GetProductsAsync();
+
+                if (products == null)
+                {
+                    return NotFound();
+                }
+                productDto = from c in products
+                                select new ProductsDto()
+                                {
+                                    ProductID = c.ProductID,
+                                    CategoryName = uow.ProductRepo.GetCategoryName(c.CategoryID),
+                                    Title = c.Name,
+                                    Price = c.Price,
+                                    isAvailable = c.isAvailable
+                                };
+
+                cache.Set(CacheKey, productDto, TimeSpan.FromDays(1));
             }
-            var productDto = from c in products
-                             select new ProductsDto()
-                             {
-                                 ProductID = c.ProductID,
-                                 CategoryName = uow.ProductRepo.GetCategoryName(c.CategoryID),
-                                 Title = c.Name,
-                                 Price = c.Price,
-                                 isAvailable = c.isAvailable
-                             };
 
             return Ok(productDto);
         }
@@ -52,6 +63,7 @@
             };
 
             uow.ProductRepo.AddProduct(product);
+            cache.Remove(CacheKey);
             await uow.SaveAsync();
 
             return CreatedAtAction("GetProducts", new { id = product.ProductID }, productsDto);
@@ -69,6 +81,8 @@
             uow.ProductRepo.DeleteProduct(id);
 
             await uow.SaveAsync();
+
+            cache.Remove(CacheKey);
 
             return NoContent();
         }
@@ -92,6 +106,8 @@
             product.Name = productsDto.Title;
             product.Price = productsDto.Price;
             product.isAvailable = productsDto.isAvailable;
+
+            cache.Remove(CacheKey);
 
             await uow.SaveAsync();
 

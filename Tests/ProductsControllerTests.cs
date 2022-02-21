@@ -1,8 +1,11 @@
-﻿namespace Tests
+﻿using Microsoft.Extensions.Caching.Memory;
+
+namespace Tests
 {
     public class ProductsControllerTests
     {
         private readonly Mock<IUnitOfWork> _uowStub = new();
+        private readonly Mock<IMemoryCache> _cache = new();
 
         #region GetProducts
         [Fact]
@@ -18,7 +21,7 @@
             _uowStub.Setup(repo => repo.ProductRepo.GetProductsAsync())
                 .ReturnsAsync(products);
 
-            var controller = new ProductController(_uowStub.Object);
+            var controller = new ProductController(_uowStub.Object, _cache.Object);
 
             // Act
             var result = await controller.GetProducts();
@@ -36,7 +39,7 @@
             _uowStub.Setup(repo => repo.ProductRepo.GetProductsAsync())
                 .ReturnsAsync(products);
 
-            var controller = new ProductController(_uowStub.Object);
+            var controller = new ProductController(_uowStub.Object, _cache.Object);
 
             // Act
             var result = await controller.GetProducts();
@@ -56,7 +59,7 @@
             _uowStub.Setup(repo => repo.ProductRepo.ProductExists(It.IsAny<string>()))
                 .Returns(true);
 
-            var controller = new ProductController(_uowStub.Object);
+            var controller = new ProductController(_uowStub.Object, _cache.Object);
 
             // Act
             var result = await controller.PostProduct(productToCreate);
@@ -79,7 +82,7 @@
             _uowStub.Setup(repo => repo.ProductRepo.ProductExists(It.IsAny<string>()))
                 .Returns(false);
 
-            var controller = new ProductController(_uowStub.Object);
+            var controller = new ProductController(_uowStub.Object, _cache.Object);
 
             // Act
             var result = await controller.PostProduct(productToCreate);
@@ -98,7 +101,7 @@
             _uowStub.Setup(repo => repo.ProductRepo.GetProductById(It.IsAny<int>()))
                 .ReturnsAsync((Products)null);
 
-            var controller = new ProductController(_uowStub.Object);
+            var controller = new ProductController(_uowStub.Object, _cache.Object);
 
             // Act
             var result = await controller.DeleteProduct(It.IsAny<int>());
@@ -116,7 +119,7 @@
             _uowStub.Setup(repo => repo.ProductRepo.GetProductById(It.IsAny<int>()))
                 .ReturnsAsync(product);
 
-            var controller = new ProductController(_uowStub.Object);
+            var controller = new ProductController(_uowStub.Object, _cache.Object);
 
             // Act
             var result = await controller.DeleteProduct(product.ProductID);
@@ -135,7 +138,7 @@
             _uowStub.Setup(repo => repo.ProductRepo.GetProductById(It.IsAny<int>()))
                 .ReturnsAsync((Products)null);
 
-            var controller = new ProductController(_uowStub.Object);
+            var controller = new ProductController(_uowStub.Object, _cache.Object);
 
             // Act
             var result = await controller.PutProduct(It.IsAny<int>(), GenerateProductDto());
@@ -153,7 +156,7 @@
             _uowStub.Setup(repo => repo.ProductRepo.GetProductById(It.IsAny<int>()))
                 .ReturnsAsync(product);
 
-            var controller = new ProductController(_uowStub.Object);
+            var controller = new ProductController(_uowStub.Object, _cache.Object);
 
             // Act
             var result = await controller.PutProduct(product.ProductID, GenerateProductDto());
