@@ -17,27 +17,21 @@ namespace API.Controllers
         [HttpGet("GetProducts")]
         public async Task<IActionResult> GetProducts()
         {
-            var productDto = cache.Get(CacheKey);
-            if(productDto == null)
+            var products = await uow.ProductRepo.GetProductsAsync();
+
+            if (products == null)
             {
-                var products = await uow.ProductRepo.GetProductsAsync();
-
-                if (products == null)
-                {
-                    return NotFound();
-                }
-                productDto = from c in products
-                                select new ProductsDto()
-                                {
-                                    ProductID = c.ProductID,
-                                    CategoryName = uow.ProductRepo.GetCategoryName(c.CategoryID),
-                                    Title = c.Name,
-                                    Price = c.Price,
-                                    isAvailable = c.isAvailable
-                                };
-
-                cache.Set(CacheKey, productDto, TimeSpan.FromDays(1));
+                return NotFound();
             }
+            var productDto = from c in products
+                         select new ProductsDto()
+                         {
+                             ProductID = c.ProductID,
+                             CategoryName = uow.ProductRepo.GetCategoryName(c.CategoryID),
+                             Title = c.Name,
+                             Price = c.Price,
+                             isAvailable = c.isAvailable
+                         };
 
             return Ok(productDto);
         }
@@ -63,7 +57,7 @@ namespace API.Controllers
             };
 
             uow.ProductRepo.AddProduct(product);
-            cache.Remove(CacheKey);
+            //cache.Remove(CacheKey);
             await uow.SaveAsync();
 
             return CreatedAtAction("GetProducts", new { id = product.ProductID }, productsDto);
@@ -82,7 +76,7 @@ namespace API.Controllers
 
             await uow.SaveAsync();
 
-            cache.Remove(CacheKey);
+            //cache.Remove(CacheKey);
 
             return NoContent();
         }
@@ -107,7 +101,7 @@ namespace API.Controllers
             product.Price = productsDto.Price;
             product.isAvailable = productsDto.isAvailable;
 
-            cache.Remove(CacheKey);
+            //cache.Remove(CacheKey);
 
             await uow.SaveAsync();
 
