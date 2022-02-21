@@ -36,7 +36,7 @@
                         ValidateIssuerSigningKey = true,
                         ValidateIssuer = false,
                         ValidateAudience = false, // these two will be set to true upon deployment
-            IssuerSigningKey = key
+                        IssuerSigningKey = key
                     };
                 });
 
