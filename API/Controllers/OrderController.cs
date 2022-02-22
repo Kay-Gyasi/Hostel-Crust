@@ -39,6 +39,7 @@
 
 
         #region PostOrder
+        [Authorize]
         [HttpPost("PostOrder")]
         public async Task<IActionResult> PostOrder(OrderDto OrdersDto)
         {

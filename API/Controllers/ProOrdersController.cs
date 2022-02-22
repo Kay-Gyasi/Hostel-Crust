@@ -37,7 +37,7 @@
             return Ok();
         }
 
-
+        [Authorize]
         [HttpPost("PostProOrder")]
         public async Task<IActionResult> PostProOrder(ProOrdersDto proOrderDto)
         {

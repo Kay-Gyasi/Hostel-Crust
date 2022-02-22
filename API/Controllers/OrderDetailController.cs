@@ -44,6 +44,7 @@
             return BadRequest();
         }
 
+        [Authorize]
         [HttpPost("PostOrderDetail")]
         public async Task<IActionResult> PostOrderDetail(OrderDetailDto orderDetailDto)
         {

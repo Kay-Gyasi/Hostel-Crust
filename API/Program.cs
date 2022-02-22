@@ -20,7 +20,7 @@ app.UseHttpsRedirection();
 
 app.UseCors("AllowOrigin");
 
-//app.UseAuthentication();
+app.UseAuthentication();
 
 app.UseAuthorization();
 

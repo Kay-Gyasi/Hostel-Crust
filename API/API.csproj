@@ -26,4 +26,8 @@
     <ProjectReference Include="..\Data Layer\Data Layer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Mailing Service\" />
+  </ItemGroup>
+
 </Project>
