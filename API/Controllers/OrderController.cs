@@ -5,12 +5,10 @@ namespace API.Controllers
     public class OrderController : BaseController
     {
         private readonly IUnitOfWork uow;
-        private readonly IMail mail;
 
-        public OrderController(IUnitOfWork uow, IMail mail)
+        public OrderController(IUnitOfWork uow)
         {
             this.uow = uow;
-            this.mail = mail;
         }
 
         #region GetOrders
