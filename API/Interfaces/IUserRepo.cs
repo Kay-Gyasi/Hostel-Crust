@@ -13,5 +13,7 @@
         void DeleteUser(int id);
 
         Task<Users> GetUsersById(int id);
+
+        Task<Users> GetUserByName(string username);
     }
 }

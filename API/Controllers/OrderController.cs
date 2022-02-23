@@ -62,10 +62,6 @@ namespace API.Controllers
 
             await uow.SaveAsync();
 
-            Users customer = await uow.UserRepo.GetUsersById(Order.CustomerID);
-
-            await mail.SendMail((customer.FirstName.Trim() + ' ' + customer.LastName.Trim()), customer.Email, Order.OrderNum);
-
             return CreatedAtAction("GetOrders", new { id = Order.OrderID }, OrdersDto);
         }
         #endregion

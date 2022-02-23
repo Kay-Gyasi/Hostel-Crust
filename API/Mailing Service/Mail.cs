@@ -1,12 +1,22 @@
-﻿using System.Net;
+﻿using API.Controllers;
+using System.Net;
 using System.Net.Mail;
 
 namespace API.Mailing_Service
 {
-    public class Mail : IMail
+    public class MailController : BaseController
     {
-        public async Task SendMail(string customer, string email, string orderNum)
+        private readonly IUnitOfWork uow;
+
+        public MailController(IUnitOfWork uow)
         {
+            this.uow = uow;
+        }
+
+        [HttpGet("SendMail/{customer}/{orderNum}")]
+        public async Task<IActionResult> SendMail(string customer, string orderNum)
+        {
+            Users users = await uow.UserRepo.GetUserByName(customer);
             string messageBody, from, password;
 
             MailMessage message = new MailMessage();
@@ -19,7 +29,7 @@ namespace API.Mailing_Service
 
             message.From = new MailAddress(from);
 
-            message.To.Add(email);
+            message.To.Add(users.Email);
 
             message.Subject = "Order received successfully";
 
@@ -32,7 +42,17 @@ namespace API.Mailing_Service
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(from, password);
-            await Task.Run(() => client.Send(message));
+
+            try
+            {
+                await Task.Run(() => client.Send(message));
+                return Ok("Mail sent succesfully!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+                throw;
+            }
         }
     }
 }

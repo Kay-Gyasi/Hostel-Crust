@@ -100,6 +100,11 @@
         {
             return await db.users.FindAsync(id);
         }
+
+        public async Task<Users> GetUserByName(string username)
+        {
+            return await db.users.Where(x => (x.FirstName.Trim() + " " + x.LastName.Trim()) == username).FirstOrDefaultAsync();
+        }
         #endregion
     }
 }
