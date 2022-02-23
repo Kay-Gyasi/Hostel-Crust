@@ -17,9 +17,9 @@ namespace API.DTOs
 
         public bool? isDelivery { get; set; } = false;
 
-        public string? AdditionalInfo { get; set; }
+        public string AdditionalInfo { get; set; }
 
-        public string? DeliveryLocation { get; set; }
+        public string DeliveryLocation { get; set; }
 
         public DateTime? DateOrdered { get; set; } = DateTime.Now;
     }

@@ -48,7 +48,7 @@ namespace Tests
         {
             return new()
             {
-                Username = "Kofi Gyasi",
+                Email = "kaygyasi715@yahoo.com",
                 Password = "hahahhahahahah"
             };
         }

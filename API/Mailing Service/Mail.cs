@@ -13,10 +13,11 @@ namespace API.Mailing_Service
             this.uow = uow;
         }
 
-        [HttpGet("SendMail/{customer}/{orderNum}")]
-        public async Task<IActionResult> SendMail(string customer, string orderNum)
+        [HttpGet("SendMail/{orderNum}")]
+        public async Task<IActionResult> SendMail(string orderNum)
         {
-            Users users = await uow.UserRepo.GetUserByName(customer);
+            int userID = uow.OrderRepo.GetCustomerIDByOrderNum(orderNum);
+            Users users = await uow.UserRepo.GetUsersById(userID);
             string messageBody, from, password;
 
             MailMessage message = new MailMessage();
@@ -24,7 +25,7 @@ namespace API.Mailing_Service
             from = "kaygyasi715@gmail.com";
             password = "Exdoegh715";
 
-            messageBody = $"Hi {customer}, your order with Id {orderNum} has been received. You wil receive an email" +
+            messageBody = $"Hi { users.FirstName.Trim() }, your order with Id {orderNum} has been received. You wil receive an email" +
                 $"once your order has been prepared and ready for delivery. Thank you for purchasing from Hostel Crust.";
 
             message.From = new MailAddress(from);

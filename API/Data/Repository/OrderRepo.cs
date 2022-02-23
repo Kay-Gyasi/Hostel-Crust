@@ -25,6 +25,11 @@
             return db.users.FirstOrDefault(x => (x.FirstName + ' ' + x.LastName) == name).CustomerID;
         }
 
+        public int GetCustomerIDByOrderNum(string orderNum)
+        {
+            return db.orders.FirstOrDefault(x => x.OrderNum == orderNum).CustomerID;
+        }
+
         public string GetCustomerName(int id)
         {
             var user = db.users.Find(id);

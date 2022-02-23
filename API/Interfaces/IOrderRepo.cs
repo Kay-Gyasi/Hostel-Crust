@@ -15,5 +15,7 @@
         string GetCustomerName(int id);
 
         Task<IEnumerable<OrderDetail>> GetOrderDetailsInOrder(string orderNum);
+
+        int GetCustomerIDByOrderNum(string orderNum);
     }
 }
