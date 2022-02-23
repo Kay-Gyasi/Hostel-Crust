@@ -23,7 +23,7 @@ namespace API.Mailing_Service
             MailMessage message = new MailMessage();
 
             from = "kaygyasi715@gmail.com";
-            password = "Exdoegh715";
+            password = "Exdoegh715@sat";
 
             messageBody = $"Hi { users.FirstName.Trim() }, your order with Id {orderNum} has been received. You wil receive an email" +
                 $"once your order has been prepared and ready for delivery. Thank you for purchasing from Hostel Crust.";
@@ -40,9 +40,9 @@ namespace API.Mailing_Service
 
             client.Port = 587;
             client.EnableSsl = true;
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(from, password);
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
 
             try
             {
