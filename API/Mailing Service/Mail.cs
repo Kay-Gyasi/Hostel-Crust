@@ -37,11 +37,11 @@ namespace API.Mailing_Service
 
             SmtpClient client = new SmtpClient("smtp.gmail.com");
 
-            client.EnableSsl = true;
             client.Port = 587;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(from, password);
+            client.EnableSsl = true;
 
             try
             {
