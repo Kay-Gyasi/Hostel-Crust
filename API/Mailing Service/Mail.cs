@@ -38,14 +38,14 @@ namespace API.Mailing_Service
             SmtpClient client = new SmtpClient("smtp.gmail.com");
 
             client.Port = 587;
+            client.EnableSsl = true;
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(from, password);
-            client.EnableSsl = true;
 
             try
             {
-                await Task.Run(() => client.Send(message));
+                client.Send(message);
                 return Ok("Mail sent succesfully!");
             }
             catch (Exception ex)
