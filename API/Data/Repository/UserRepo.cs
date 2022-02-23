@@ -11,7 +11,7 @@
 
         public async Task<Users> Authenticate(string username, string password)
         {
-            var user = await db.users.FirstOrDefaultAsync(x => (x.Email) == username);
+            var user = await db.users.FirstOrDefaultAsync(x => x.Email == username);
 
             if (user == null || user.PasswordKey == null)
             {

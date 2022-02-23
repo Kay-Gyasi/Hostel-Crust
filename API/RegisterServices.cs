@@ -1,4 +1,6 @@
-﻿namespace API
+﻿using API.Mailing_Service;
+
+namespace API
 {
     public static class RegisterServices
     {
@@ -22,6 +24,7 @@
             });
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddSingleton<IMail, Mail>();
 
             //var secretKey = configuration.GetSection("AppSettings:HostelCrustKey").Value;
             var secretKey = builder.Configuration.GetSection("HostelCrustKey").Value;

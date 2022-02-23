@@ -1,12 +1,16 @@
-﻿namespace API.Controllers
+﻿using API.Mailing_Service;
+
+namespace API.Controllers
 {
     public class OrderController : BaseController
     {
         private readonly IUnitOfWork uow;
+        private readonly IMail mail;
 
-        public OrderController(IUnitOfWork uow)
+        public OrderController(IUnitOfWork uow, IMail mail)
         {
             this.uow = uow;
+            this.mail = mail;
         }
 
         #region GetOrders
@@ -57,6 +61,10 @@
             uow.OrderRepo.AddOrder(Order);
 
             await uow.SaveAsync();
+
+            Users customer = await uow.UserRepo.GetUsersById(Order.CustomerID);
+
+            await mail.SendMail((customer.FirstName.Trim() + ' ' + customer.LastName.Trim()), customer.Email, Order.OrderNum);
 
             return CreatedAtAction("GetOrders", new { id = Order.OrderID }, OrdersDto);
         }
