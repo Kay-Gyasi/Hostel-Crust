@@ -14,7 +14,7 @@
         [HttpPost("Login")]
         public async Task<IActionResult> Login(LoginReqDto loginReqDto)
         {
-            var user = await uow.UserRepo.Authenticate(loginReqDto.Username, loginReqDto.Password);
+            var user = await uow.UserRepo.Authenticate(loginReqDto.Email, loginReqDto.Password);
 
             if(user == null)
             {
