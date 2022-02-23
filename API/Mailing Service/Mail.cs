@@ -25,7 +25,7 @@ namespace API.Mailing_Service
             from = "kaygyasi715@gmail.com";
             password = "Exdoegh715@sat";
 
-            messageBody = $"Hi { users.FirstName.Trim() }, your order with Id {orderNum} has been received. You wil receive an email" +
+            messageBody = $"Hi { users.FirstName.Trim() }, your order with ID {orderNum} has been received. You wil receive an email " +
                 $"once your order has been prepared and ready for delivery. Thank you for purchasing from Hostel Crust.";
 
             message.From = new MailAddress(from);
