@@ -36,9 +36,9 @@ namespace API.Mailing_Service
 
             message.Body = messageBody;
 
-            SmtpClient client = new SmtpClient("smtp.mail.yahoo.com");
+            SmtpClient client = new SmtpClient("smtp.mail.yahoo.com"); //smtp.gmail.com
 
-            client.Port = 587;
+            client.Port = 465; // 587 for gmail
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(from, password);
