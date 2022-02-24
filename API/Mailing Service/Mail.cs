@@ -36,7 +36,7 @@ namespace API.Mailing_Service
 
             message.Body = messageBody;
 
-            SmtpClient client = new SmtpClient("smtp.yahoo.com");
+            SmtpClient client = new SmtpClient("smtp.mail.yahoo.com");
 
             client.Port = 587;
             client.EnableSsl = true;
