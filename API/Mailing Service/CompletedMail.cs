@@ -36,7 +36,7 @@ namespace API.Mailing_Service
 
             message.To.Add(users.Email);
 
-            message.Subject = "Order received successfully";
+            message.Subject = "Order completed";
 
             message.Body = messageBody;
 
