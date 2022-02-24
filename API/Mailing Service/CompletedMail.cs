@@ -30,7 +30,7 @@ namespace API.Mailing_Service
             password = config["Password"];
 
             messageBody = $"Hi { users.FirstName.Trim() }, your order with ID {orderNum} has been completed and is ready for pickup. " +
-                $"Thank you for purchasing from Hostel Crust.";
+                $"Kindly contact us on +233551580433 for further information (cost and payment info). Thank you for purchasing from Hostel Crust.";
 
             message.From = new MailAddress(from);
 
