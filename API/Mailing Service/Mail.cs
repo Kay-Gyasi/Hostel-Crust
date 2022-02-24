@@ -22,10 +22,10 @@ namespace API.Mailing_Service
 
             MailMessage message = new MailMessage();
 
-            from = "kaygyasi715@gmail.com";
+            from = "kaygyasi715@yahoo.com";
             password = "Exdoegh715@sat";
 
-            messageBody = $"Hi { users.FirstName.Trim() }, your order with ID {orderNum} has been received. You wil receive an email " +
+            messageBody = $"Hi { users.FirstName.Trim() }, your order with ID {orderNum} has been received. You will receive an email " +
                 $"once your order has been prepared and ready for delivery. Thank you for purchasing from Hostel Crust.";
 
             message.From = new MailAddress(from);
@@ -36,7 +36,7 @@ namespace API.Mailing_Service
 
             message.Body = messageBody;
 
-            SmtpClient client = new SmtpClient("smtp.gmail.com");
+            SmtpClient client = new SmtpClient("smtp.yahoo.com");
 
             client.Port = 587;
             client.EnableSsl = true;
