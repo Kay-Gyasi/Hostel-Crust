@@ -7,10 +7,12 @@ namespace API.Mailing_Service
     public class MailController : BaseController
     {
         private readonly IUnitOfWork uow;
+        private readonly IConfiguration config;
 
-        public MailController(IUnitOfWork uow)
+        public MailController(IUnitOfWork uow, IConfiguration config)
         {
             this.uow = uow;
+            this.config = config;
         }
 
         [HttpGet("SendMail/{orderNum}")]
@@ -22,10 +24,10 @@ namespace API.Mailing_Service
 
             MailMessage message = new MailMessage();
 
-            from = "kaygyasi715@yahoo.com";
-            password = "Exdoegh715@sat";
+            from = config["Email Address"];
+            password = config["Password"];
 
-            messageBody = $"Hi { users.FirstName.Trim() }, your order with ID {orderNum} has been received. You will receive an email " +
+            messageBody = $"Hi { users.FirstName.Trim() }, your order with ID {orderNum} has been received. You wil receive an email " +
                 $"once your order has been prepared and ready for delivery. Thank you for purchasing from Hostel Crust.";
 
             message.From = new MailAddress(from);
@@ -36,9 +38,9 @@ namespace API.Mailing_Service
 
             message.Body = messageBody;
 
-            SmtpClient client = new SmtpClient("smtp.mail.yahoo.com"); //smtp.gmail.com
+            SmtpClient client = new SmtpClient("smtp.gmail.com");
 
-            client.Port = 465; // 587 for gmail
+            client.Port = 587;
             client.EnableSsl = true;
             client.UseDefaultCredentials = false;
             client.Credentials = new NetworkCredential(from, password);
