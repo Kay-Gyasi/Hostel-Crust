@@ -12,6 +12,6 @@
 
         public DateTime? DateAdded { get; set; }
 
-        public ICollection<Products>? Products { get; set; }
+        public ICollection<Products> Products { get; set; }
     }
 }

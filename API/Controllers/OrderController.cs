@@ -5,10 +5,12 @@ namespace API.Controllers
     public class OrderController : BaseController
     {
         private readonly IUnitOfWork uow;
+        private readonly IDIFactory factory;
 
-        public OrderController(IUnitOfWork uow)
+        public OrderController(IUnitOfWork uow, IDIFactory factory)
         {
             this.uow = uow;
+            this.factory = factory;
         }
 
         #region GetOrders
@@ -45,22 +47,23 @@ namespace API.Controllers
         [HttpPost("PostOrder")]
         public async Task<IActionResult> PostOrder(OrderDto OrdersDto)
         {
-            Orders Order = new();
+            Orders order = factory.Orders();
+            #region Mapping
+            order.OrderID = OrdersDto.OrderID;
+            order.isFulfilled = OrdersDto.isFulfilled;
+            order.CustomerID = uow.OrderRepo.GetCustomerId(OrdersDto.Customer);
+            order.OrderNum = OrdersDto.OrderNum;
+            order.AdditionalInfo = OrdersDto.AdditionalInfo;
+            order.DeliveryLocation = OrdersDto.DeliveryLocation;
+            order.isDelivery = OrdersDto.isDelivery;
+            order.DateOrdered = OrdersDto.DateOrdered;
+            #endregion
 
-            Order.OrderID = OrdersDto.OrderID;
-            Order.isFulfilled = OrdersDto.isFulfilled;
-            Order.CustomerID = uow.OrderRepo.GetCustomerId(OrdersDto.Customer);
-            Order.OrderNum = OrdersDto.OrderNum;
-            Order.AdditionalInfo = OrdersDto.AdditionalInfo;
-            Order.DeliveryLocation = OrdersDto.DeliveryLocation;
-            Order.isDelivery = OrdersDto.isDelivery;
-            Order.DateOrdered = OrdersDto.DateOrdered;
-
-            uow.OrderRepo.AddOrder(Order);
+            uow.OrderRepo.AddOrder(order);
 
             await uow.SaveAsync();
 
-            return CreatedAtAction("GetOrders", new { id = Order.OrderID }, OrdersDto);
+            return CreatedAtAction("GetOrders", new { id = order.OrderID }, OrdersDto);
         }
         #endregion
 

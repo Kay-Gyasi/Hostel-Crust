@@ -1,4 +1,6 @@
-﻿using API.Mailing_Service;
+﻿using API.Controllers;
+using API.Factory;
+using API.Mailing_Service;
 
 namespace API
 {
@@ -24,6 +26,8 @@ namespace API
             });
 
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            builder.Services.AddSingleton<IJwtController, JwtController>();
+            builder.Services.AddScoped<IDIFactory, DIFactory>();
 
             //var secretKey = configuration.GetSection("AppSettings:HostelCrustKey").Value;
             var secretKey = builder.Configuration.GetSection("HostelCrustKey").Value;

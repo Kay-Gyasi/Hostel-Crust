@@ -3,10 +3,12 @@
     public class OrderDetailController : BaseController
     {
         private readonly IUnitOfWork uow;
+        private readonly IDIFactory factory;
 
-        public OrderDetailController(IUnitOfWork uow)
+        public OrderDetailController(IUnitOfWork uow, IDIFactory factory)
         {
             this.uow = uow;
+            this.factory = factory;
         }
 
         [HttpGet("GetOrderDetails")]
@@ -48,12 +50,14 @@
         [HttpPost("PostOrderDetail")]
         public async Task<IActionResult> PostOrderDetail(OrderDetailDto orderDetailDto)
         {
-            var detail = new OrderDetail();
+            var detail = factory.OrderDetail();
+            #region Mapping
             detail.OrderNum = orderDetailDto.OrderNum;
             detail.ProductID = uow.DetailRepo.GetProductId(orderDetailDto.Product);
             detail.Price = orderDetailDto.Price;
             detail.Quantity = orderDetailDto.Quantity;
             detail.TotalPrice = orderDetailDto.TotalPrice;
+            #endregion
 
             uow.DetailRepo.AddOrderDetail(detail);
 
@@ -67,6 +71,10 @@
         {
             var details = await Task.Run(() => uow.DetailRepo.GetDetailsForOrder(orderNum));
 
+            if(details is null)
+            {
+                return BadRequest();
+            }
             var detailsDto = from order in details
                              select new OrderDetailDto
                              {

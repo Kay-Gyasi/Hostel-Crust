@@ -5,13 +5,12 @@ namespace API.Controllers
     public class ProductController : BaseController
     {
         private readonly IUnitOfWork uow;
-        private readonly IMemoryCache cache;
-        private const string CacheKey = "Products";
+        private readonly IDIFactory factory;
 
-        public ProductController(IUnitOfWork uow, IMemoryCache cache)
+        public ProductController(IUnitOfWork uow, IDIFactory factory)
         {
             this.uow = uow;
-            this.cache = cache;
+            this.factory = factory;
         }
 
         [HttpGet("GetProducts")]
@@ -47,17 +46,16 @@ namespace API.Controllers
 
             var CId = uow.ProductRepo.GetCategoryId(productsDto.CategoryName);
 
-            var product = new Products()
-            {
-                ProductID = productsDto.ProductID,
-                CategoryID = CId,
-                Name = productsDto.Title,
-                Price = productsDto.Price,
-                isAvailable = productsDto.isAvailable
-            };
+            Products product = factory.Products();
+            #region Mapping
+            product.ProductID = productsDto.ProductID;
+            product.CategoryID = CId;
+            product.Name = productsDto.Title;
+            product.Price = productsDto.Price;
+            product.isAvailable = productsDto.isAvailable;
+            #endregion
 
             uow.ProductRepo.AddProduct(product);
-            //cache.Remove(CacheKey);
             await uow.SaveAsync();
 
             return CreatedAtAction("GetProducts", new { id = product.ProductID }, productsDto);
@@ -75,8 +73,6 @@ namespace API.Controllers
             uow.ProductRepo.DeleteProduct(id);
 
             await uow.SaveAsync();
-
-            //cache.Remove(CacheKey);
 
             return NoContent();
         }
@@ -100,8 +96,6 @@ namespace API.Controllers
             product.Name = productsDto.Title;
             product.Price = productsDto.Price;
             product.isAvailable = productsDto.isAvailable;
-
-            //cache.Remove(CacheKey);
 
             await uow.SaveAsync();
 

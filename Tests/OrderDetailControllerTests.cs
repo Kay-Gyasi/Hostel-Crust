@@ -3,6 +3,7 @@
     public class OrderDetailControllerTests
     {
         private readonly Mock<IUnitOfWork> _uowStub = new();
+        private readonly Mock<IDIFactory> factoryStub = new();
 
         #region GetDetails
         [Fact]
@@ -18,7 +19,7 @@
             _uowStub.Setup(repo => repo.DetailRepo.GetOrderDetailsAsync())
                 .ReturnsAsync(details);
 
-            var controller = new OrderDetailController(_uowStub.Object);
+            var controller = new OrderDetailController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.GetOrderDetails();
@@ -36,7 +37,7 @@
             _uowStub.Setup(repo => repo.DetailRepo.GetOrderDetailsAsync())
                 .ReturnsAsync(details);
 
-            var controller = new OrderDetailController(_uowStub.Object);
+            var controller = new OrderDetailController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.GetOrderDetails();
@@ -55,7 +56,7 @@
             _uowStub.Setup(repo => repo.DetailRepo.OrderDetailExists(It.IsAny<int>()))
                 .Returns(true);
 
-            var controller = new OrderDetailController(_uowStub.Object);
+            var controller = new OrderDetailController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.DeleteOrderDetail(It.IsAny<int>());
@@ -71,7 +72,7 @@
             _uowStub.Setup(repo => repo.DetailRepo.OrderDetailExists(It.IsAny<int>()))
                 .Returns(false);
 
-            var controller = new OrderDetailController(_uowStub.Object);
+            var controller = new OrderDetailController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.DeleteOrderDetail(It.IsAny<int>());
@@ -91,8 +92,9 @@
 
             _uowStub.Setup(repo => repo.DetailRepo.GetProductId(It.IsAny<string>()))
                 .Returns(It.IsAny<int>());
+            factoryStub.Setup(x => x.OrderDetail()).Returns(GenerateDetails());
 
-            var controller = new OrderDetailController(_uowStub.Object);
+            var controller = new OrderDetailController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.PostOrderDetail(GenerateDetailsDto());
@@ -103,6 +105,47 @@
             detailToPost.Should().BeEquivalentTo(postedDetail,
                 options => options.ComparingByMembers<OrderDetailDto>()
                 .ExcludingMissingMembers());
+        }
+        #endregion
+
+        #region Order details for order
+        [Fact]
+        public async Task GetDetailsForOrder_WithNullReturn_ReturnsBadRequest()
+        {
+            // Arrange
+            List<OrderDetail> orderDetails = null;
+
+            _uowStub.Setup(repo => repo.DetailRepo.GetDetailsForOrder(It.IsAny<string>()))
+                .Returns(orderDetails);
+
+            var controller = new OrderDetailController(_uowStub.Object, factoryStub.Object);
+
+            // Act
+            var result = await controller.GetDetailsForOrders(It.IsAny<string>());
+
+            // Assert
+            Assert.IsType<BadRequestResult>(result);
+        }
+
+        [Fact]
+        public async Task GetDetailsForOrder_WithReturn_ReturnsOkObject()
+        {
+            // Arrange
+            List<OrderDetail> orderDetails = new()
+            {
+                GenerateDetails()
+            };
+
+            _uowStub.Setup(repo => repo.DetailRepo.GetDetailsForOrder(It.IsAny<string>()))
+                .Returns(orderDetails);
+
+            var controller = new OrderDetailController(_uowStub.Object, factoryStub.Object);
+
+            // Act
+            var result = await controller.GetDetailsForOrders(It.IsAny<string>());
+
+            // Assert
+            Assert.IsType<OkObjectResult>(result);
         }
         #endregion
 

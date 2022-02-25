@@ -19,10 +19,10 @@
 
         [Column(TypeName = "varchar(200)")]
         [DataType(DataType.MultilineText)]
-        public string? AdditionalInfo { get; set; }
+        public string AdditionalInfo { get; set; }
 
         [Column(TypeName = "varchar(50)")]
-        public string? DeliveryLocation { get; set; }
+        public string DeliveryLocation { get; set; }
 
         public DateTime? DateOrdered { get; set; } 
     }

@@ -3,10 +3,12 @@
     public class CategoryController : BaseController
     {
         private readonly IUnitOfWork uow;
+        private readonly IDIFactory factory;
 
-        public CategoryController(IUnitOfWork uow)
+        public CategoryController(IUnitOfWork uow, IDIFactory factory)
         {
             this.uow = uow;
+            this.factory = factory;
         }
 
         [HttpGet("GetCategories")]
@@ -40,12 +42,12 @@
                 return BadRequest("Category already exists in database");
             }
 
-            var category = new Categories
-            {
-                CategoryID = categoryDto.CategoryID,
-                Title = categoryDto.Title,
-                DateAdded = categoryDto.DateAdded
-            };
+            var category = factory.Categories();
+            #region Mapping
+            category.CategoryID = categoryDto.CategoryID;
+            category.Title = categoryDto.Title;
+            category.DateAdded = categoryDto.DateAdded;
+            #endregion
 
             uow.CategoryRepo.AddCategory(category);
 

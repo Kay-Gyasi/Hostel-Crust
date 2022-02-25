@@ -3,6 +3,7 @@
     public class CategoryControllerTests
     {
         private readonly Mock<IUnitOfWork> _uowStub = new();
+        private readonly Mock<IDIFactory> factoryStub = new();
 
         #region GetCategories
         [Fact]
@@ -13,7 +14,7 @@
 
             _uowStub.Setup(repo => repo.CategoryRepo.GetCategoriesAsync()).ReturnsAsync(categories);
 
-            var controller = new CategoryController(_uowStub.Object);
+            var controller = new CategoryController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.GetCategories();
@@ -30,7 +31,7 @@
 
             _uowStub.Setup(repo => repo.CategoryRepo.GetCategoriesAsync()).ReturnsAsync(categories);
 
-            var controller = new CategoryController(_uowStub.Object);
+            var controller = new CategoryController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.GetCategories();
@@ -49,7 +50,7 @@
             _uowStub.Setup(repo => repo.CategoryRepo.CategoryExists(It.IsAny<string>()))
                 .Returns(true);
 
-            var controller = new CategoryController(_uowStub.Object);
+            var controller = new CategoryController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.PostCategory(categoryToPost);
@@ -59,15 +60,16 @@
         }
 
         [Fact]
-        public async Task PostCategory_WithUnexistingCategory_ReturnsBadRequest()
+        public async Task PostCategory_WithUnexistingCategory_ReturnsCreatedAtAction()
         {
             // Arrange
-            var categoryToPost = new CategoriesDto();
+            var categoryToPost = GenerateCategoryDto();
 
             _uowStub.Setup(repo => repo.CategoryRepo.CategoryExists(It.IsAny<string>()))
                 .Returns(false);
+            factoryStub.Setup(x => x.Categories()).Returns(GenerateCategory());
 
-            var controller = new CategoryController(_uowStub.Object);
+            var controller = new CategoryController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.PostCategory(categoryToPost);
@@ -93,7 +95,7 @@
             _uowStub.Setup(repo => repo.CategoryRepo.GetCategoryById(It.IsAny<int>()))
                 .ReturnsAsync(categories);
 
-            var controller = new CategoryController(_uowStub.Object);
+            var controller = new CategoryController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.PutCategory(5, GenerateCategoryDto());
@@ -111,7 +113,7 @@
             _uowStub.Setup(repo => repo.CategoryRepo.GetCategoryById(It.IsAny<int>()))
                 .ReturnsAsync(GenerateCategory());
 
-            var controller = new CategoryController(_uowStub.Object);
+            var controller = new CategoryController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.PutCategory(5, categoryDto);
@@ -132,7 +134,7 @@
             _uowStub.Setup(repo => repo.CategoryRepo.GetCategoryById(It.IsAny<int>()))
                 .ReturnsAsync(category);
 
-            var controller = new CategoryController(_uowStub.Object);
+            var controller = new CategoryController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.DeleteCategory(category.CategoryID);
@@ -150,7 +152,7 @@
             _uowStub.Setup(repo => repo.CategoryRepo.GetCategoryById(It.IsAny<int>()))
                 .ReturnsAsync((Categories)null);
 
-            var controller = new CategoryController(_uowStub.Object);
+            var controller = new CategoryController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.DeleteCategory(category.CategoryID);

@@ -3,6 +3,7 @@
     public class OrderControllerTests
     {
         private readonly Mock<IUnitOfWork> _uowStub = new Mock<IUnitOfWork>();
+        private readonly Mock<IDIFactory> factoryStub = new();
 
         #region GetOrders
         [Fact]
@@ -13,7 +14,7 @@
 
             _uowStub.Setup(repo => repo.OrderRepo.GetOrdersAsync()).ReturnsAsync(orders);
 
-            var controller = new OrderController(_uowStub.Object);
+            var controller = new OrderController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.GetOrders();
@@ -35,7 +36,7 @@
 
             _uowStub.Setup(repo => repo.OrderRepo.GetOrdersAsync()).ReturnsAsync(orders);
 
-            var controller = new OrderController(_uowStub.Object);
+            var controller = new OrderController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.GetOrders();
@@ -56,8 +57,9 @@
 
             _uowStub.Setup(repo => repo.OrderRepo.GetCustomerId(It.IsAny<string>()))
                 .Returns(It.IsAny<int>());
+            factoryStub.Setup(x => x.Orders()).Returns(GenerateOrder());
 
-            var controller = new OrderController(_uowStub.Object);
+            var controller = new OrderController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.PostOrder(orderToPost);
@@ -86,7 +88,7 @@
             _uowStub.Setup(repo => repo.OrderRepo.GetOrderById(It.IsAny<int>()))
                 .ReturnsAsync(orderToPut);
 
-            var controller = new OrderController(_uowStub.Object);
+            var controller = new OrderController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.PutOrder(It.IsAny<int>(), GenerateOrderDto());
@@ -104,7 +106,7 @@
             _uowStub.Setup(repo => repo.OrderRepo.GetOrderById(It.IsAny<int>()))
                 .ReturnsAsync(orderToPut);
 
-            var controller = new OrderController(_uowStub.Object);
+            var controller = new OrderController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.PutOrder(It.IsAny<int>(), GenerateOrderDto());
@@ -125,7 +127,7 @@
             _uowStub.Setup(repo => repo.OrderRepo.GetOrderById(It.IsAny<int>()))
                 .ReturnsAsync(orderToDelete);
 
-            var controller = new OrderController(_uowStub.Object);
+            var controller = new OrderController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.DeleteOrder(orderToDelete.OrderID);
@@ -143,7 +145,7 @@
             _uowStub.Setup(repo => repo.OrderRepo.GetOrderById(It.IsAny<int>()))
                 .ReturnsAsync(orderToDelete);
 
-            var controller = new OrderController(_uowStub.Object);
+            var controller = new OrderController(_uowStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.DeleteOrder(It.IsAny<int>());

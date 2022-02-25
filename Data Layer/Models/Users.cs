@@ -35,7 +35,7 @@
 
         [MaxLength(100)]
         [DataType(DataType.MultilineText, ErrorMessage = "Invalid Address")]
-        public string? Address { get; set; }
+        public string Address { get; set; }
 
 
 

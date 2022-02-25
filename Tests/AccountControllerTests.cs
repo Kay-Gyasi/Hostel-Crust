@@ -3,7 +3,8 @@ namespace Tests
     public class AccountControllerTests
     {
         private readonly Mock<IUnitOfWork> _uowStub = new();
-        private readonly Mock<IConfiguration> configurationStub = new();
+        private readonly Mock<IJwtController> jwtStub = new();
+        private readonly Mock<IDIFactory> factoryStub = new();
         private Random rand = new();
 
         [Fact]
@@ -15,7 +16,7 @@ namespace Tests
             _uowStub.Setup(repo => repo.UserRepo.Authenticate(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(user);
 
-            var controller = new AccountController(_uowStub.Object, configurationStub.Object);
+            var controller = new AccountController(_uowStub.Object, jwtStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.Login(GenerateLoginRequest());
@@ -33,8 +34,10 @@ namespace Tests
 
             _uowStub.Setup(repo => repo.UserRepo.Authenticate(It.IsAny<string>(), It.IsAny<string>()))
                 .ReturnsAsync(user);
+            factoryStub.Setup(x => x.LoginResDto()).Returns(new LoginResDto());
+            jwtStub.Setup(x => x.CreateJWT(user)).Returns(It.IsAny<string>());
 
-            var controller = new AccountController(_uowStub.Object, configurationStub.Object);
+            var controller = new AccountController(_uowStub.Object, jwtStub.Object, factoryStub.Object);
 
             // Act
             var result = await controller.Login(GenerateLoginRequest());
