@@ -22,6 +22,7 @@ namespace API
 
             builder.Services.AddDbContext<HostelContext>(options =>
             {
+                //var conn = builder.Configuration.GetConnectionString("HostelCrust");
                 options.UseSqlServer(builder.Configuration.GetConnectionString("HostelCrust"));
             });
 

@@ -1,3 +1,4 @@
+using Azure.Identity;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigureServices();
@@ -10,7 +11,7 @@ app.UseSwagger();
 app.UseSwaggerUI(c => {
 
     c.SwaggerEndpoint("/swagger/v1/swagger.json", "ECommerceApi v1");
-    //c.RoutePrefix = String.Empty;
+    c.RoutePrefix = string.Empty;
     c.DisplayOperationId();
 });
 
